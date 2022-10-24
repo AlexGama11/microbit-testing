@@ -63,7 +63,7 @@ def on_forever():
     if not (Bluetooth):
         Number2 += 1
         basic.show_number(Number2)
-    while input.light_level() <= 50:
+    while input.light_level() <= 30:
         Bluetooth = True
         radio.send_string("SOS")
         basic.show_leds("""
@@ -75,7 +75,7 @@ def on_forever():
         """)
         basic.clear_screen()
         SOSRadioGroup()
-        if input.light_level() > 50:
+        if input.light_level() > 30:
             radio.send_string("Safe!")
             break
 basic.forever(on_forever)

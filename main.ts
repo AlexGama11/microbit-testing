@@ -1,50 +1,42 @@
-function SOSRadioGroup() {
-    
+function SOSRadioGroup () {
     radio.setGroup(BluetoothGroup)
     BluetoothGroup += 1
     if (BluetoothGroup == 20) {
         BluetoothGroup = 0
     }
-    
 }
-
-radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
+radio.onReceivedNumber(function (receivedNumber) {
     basic.clearScreen()
     basic.showNumber(receivedNumber)
-    basic.showString("" + ("" + radio.receivedPacket(RadioPacketProperty.SignalStrength)))
+    basic.showString("" + radio.receivedPacket(RadioPacketProperty.SignalStrength))
 })
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
+input.onButtonPressed(Button.A, function () {
     basic.clearScreen()
     Radio()
     Number2 = 0
 })
-function Shapes() {
+function Shapes () {
     basic.showIcon(IconNames.Heart)
     basic.showIcon(IconNames.Tortoise)
     basic.showIcon(IconNames.LeftTriangle)
     basic.showIcon(IconNames.Pitchfork)
 }
-
-radio.onReceivedString(function on_received_string(receivedString: string) {
+radio.onReceivedString(function (receivedString) {
     basic.clearScreen()
     basic.showString(receivedString)
-    basic.showString("" + ("" + radio.receivedPacket(RadioPacketProperty.SignalStrength)))
+    basic.showString("" + radio.receivedPacket(RadioPacketProperty.SignalStrength))
 })
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
+input.onButtonPressed(Button.B, function () {
     basic.clearScreen()
     Shapes()
     Number2 = 0
     Bluetooth = false
 })
-function Radio() {
+function Radio () {
     radio.sendString("Hello World!")
-    basic.showString("Message Sent!")
+    basic.showString("Sent!")
 }
-
-input.onGesture(Gesture.LogoDown, function on_gesture_logo_down() {
-    
+input.onGesture(Gesture.LogoDown, function () {
     basic.clearScreen()
     Number2 = 0
     Bluetooth = true
@@ -57,29 +49,32 @@ let Number2 = 0
 radio.setGroup(1)
 basic.showString("Hi")
 Number2 = 0
-basic.forever(function on_forever() {
-    
-    if (!Bluetooth) {
+basic.forever(function () {
+    if (!(Bluetooth)) {
         Number2 += 1
         basic.showNumber(Number2)
     }
-    
-    while (input.lightLevel() <= 50) {
+    while (input.lightLevel() <= 30) {
         Bluetooth = true
         radio.sendString("SOS")
         basic.showLeds(`
             . . # . .
-                        . . # . .
-                        . . # . .
-                        . . . . .
-                        . . # . .
-        `)
-        basic.clearScreen()
+            . . # . .
+            . . # . .
+            . . . . .
+            . . # . .
+            `)
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            `)
         SOSRadioGroup()
-        if (input.lightLevel() > 50) {
+        if (input.lightLevel() > 30) {
             radio.sendString("Safe!")
-            break
+            break;
         }
-        
     }
 })
