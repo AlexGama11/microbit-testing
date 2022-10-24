@@ -1,12 +1,19 @@
+function SOSRadioGroup () {
+    radio.setGroup(BluetoothGroup)
+    BluetoothGroup += 1
+    if (BluetoothGroup == 20) {
+        BluetoothGroup = 0
+    }
+}
 radio.onReceivedNumber(function (receivedNumber) {
     basic.clearScreen()
     basic.showNumber(receivedNumber)
+    basic.showString("" + (radio.receivedPacket(RadioPacketProperty.SignalStrength)))
 })
 input.onButtonPressed(Button.A, function () {
     basic.clearScreen()
     Radio()
     Number2 = 0
-    Bluetooth = true
 })
 function Shapes () {
     basic.showIcon(IconNames.Heart)
@@ -17,6 +24,7 @@ function Shapes () {
 radio.onReceivedString(function (receivedString) {
     basic.clearScreen()
     basic.showString(receivedString)
+    basic.showString("" + (radio.receivedPacket(RadioPacketProperty.SignalStrength)))
 })
 input.onButtonPressed(Button.B, function () {
     basic.clearScreen()
@@ -24,24 +32,43 @@ input.onButtonPressed(Button.B, function () {
     Number2 = 0
     Bluetooth = false
 })
-input.onGesture(Gesture.Shake, function () {
-    basic.clearScreen()
-    basic.showNumber(randint(0, 100))
-    basic.pause(2000)
-    Number2 = 0
-})
 function Radio () {
     radio.sendString("Hello World!")
     basic.showString("Message Sent!")
 }
+input.onGesture(Gesture.LogoDown, function () {
+    basic.clearScreen()
+    Number2 = 0
+    Bluetooth = true
+    radio.sendNumber(randint(0, 100))
+    basic.showIcon(IconNames.Skull)
+})
 let Bluetooth = false
+let BluetoothGroup = 0
 let Number2 = 0
 radio.setGroup(1)
-basic.showString("A:Radio, B:Shapes")
+basic.showString("Hi")
 Number2 = 0
 basic.forever(function () {
     if (!(Bluetooth)) {
         Number2 += 1
         basic.showNumber(Number2)
+    }
+    while (input.lightLevel() <= 50) {
+        Bluetooth = true
+        radio.sendString("SOS")
+        basic.showLeds(`
+            . . # . .
+            . . # . .
+            . . # . .
+            . . . . .
+            . . # . .
+            `)
+        basic.clearScreen()
+        SOSRadioGroup()
+        if (input.lightLevel() > 50) {
+            radio.sendString("Safe!")
+            break;
+        }
     }
 })
