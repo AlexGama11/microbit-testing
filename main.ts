@@ -19,6 +19,14 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     Radio()
     Number2 = 0
 })
+input.onGesture(Gesture.LogoUp, function on_gesture_logo_up() {
+    
+    basic.clearScreen()
+    Number2 = 0
+    Bluetooth = true
+    radio.sendNumber(randint(0, 100))
+    basic.showIcon(IconNames.Skull)
+})
 function Shapes() {
     basic.showIcon(IconNames.Heart)
     basic.showIcon(IconNames.Tortoise)
@@ -43,14 +51,6 @@ function Radio() {
     basic.showString("Message Sent!")
 }
 
-input.onGesture(Gesture.LogoDown, function on_gesture_logo_down() {
-    
-    basic.clearScreen()
-    Number2 = 0
-    Bluetooth = true
-    radio.sendNumber(randint(0, 100))
-    basic.showIcon(IconNames.Skull)
-})
 let Bluetooth = false
 let BluetoothGroup = 0
 let Number2 = 0
