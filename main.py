@@ -18,20 +18,15 @@ def on_button_pressed_a():
     Number2 = 0
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
-def on_gesture_logo_up():
-    global Number2, Bluetooth
-    basic.clear_screen()
-    Number2 = 0
-    Bluetooth = True
-    radio.send_number(randint(0, 100))
-    basic.show_icon(IconNames.SKULL)
-input.on_gesture(Gesture.LOGO_UP, on_gesture_logo_up)
-
 def Shapes():
     basic.show_icon(IconNames.HEART)
     basic.show_icon(IconNames.TORTOISE)
     basic.show_icon(IconNames.LEFT_TRIANGLE)
     basic.show_icon(IconNames.PITCHFORK)
+
+def on_button_pressed_ab():
+    music.play_melody("C5 B A G G A B C5 ", 120)
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
 
 def on_received_string(receivedString):
     basic.clear_screen()
@@ -50,11 +45,21 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
 def Radio():
     radio.send_string("Hello World!")
     basic.show_string("Message Sent!")
+
+def on_gesture_three_g():
+    global Number2, Bluetooth
+    basic.clear_screen()
+    Number2 = 0
+    Bluetooth = True
+    radio.send_number(randint(0, 100))
+    basic.show_icon(IconNames.SKULL)
+input.on_gesture(Gesture.THREE_G, on_gesture_three_g)
+
 Bluetooth = False
 BluetoothGroup = 0
 Number2 = 0
 radio.set_group(1)
-basic.show_string("Hi")
+basic.show_string("Hi!")
 Number2 = 0
 
 def on_forever():
